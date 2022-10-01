@@ -35,8 +35,8 @@ import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
   }
 
   public void setStyle(@Nullable String styleName) {
-    int style = ReactProgressBarViewManager.getStyleFromString(styleName);
-    mProgressBar = ReactProgressBarViewManager.createProgressBar(getContext(), style);
+    int style = ReactProgressBarViewManagerImpl.getStyleFromString(styleName);
+    mProgressBar = ReactProgressBarViewManagerImpl.createProgressBar(getContext(), style);
     mProgressBar.setMax(MAX_PROGRESS);
     removeAllViews();
     addView(

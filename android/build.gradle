@@ -1,3 +1,11 @@
+def isNewArchitectureEnabled() {
+    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
+}
+
+if (isNewArchitectureEnabled()) {
+    apply plugin: 'com.facebook.react'
+}
+
 
 buildscript {
     repositories {
@@ -19,6 +27,16 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+    }
+    sourceSets {
+        main {
+            if (isNewArchitectureEnabled()) {
+                java.srcDirs += ['src/newarch']
+            } else {
+                java.srcDirs += ['src/oldarch']
+            }
+        }
     }
     lintOptions {
         abortOnError false
@@ -31,4 +49,12 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
+}
+
+if (isNewArchitectureEnabled()) {
+   react {
+        jsRootDir = file("../js/")
+        libraryName = "progressbarandroid"
+        codegenJavaPackageName = "com.reactnativecommunity.androidprogressbar"
+    }
 }

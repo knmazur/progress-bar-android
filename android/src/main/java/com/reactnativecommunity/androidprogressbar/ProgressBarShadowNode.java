@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  */
 public class ProgressBarShadowNode extends LayoutShadowNode implements YogaMeasureFunction {
 
-  private String mStyle = ReactProgressBarViewManager.DEFAULT_STYLE;
+  private String mStyle = ReactProgressBarViewManagerImpl.DEFAULT_STYLE;
 
   private final SparseIntArray mHeight;
   private final SparseIntArray mWidth;
@@ -49,9 +49,9 @@ public class ProgressBarShadowNode extends LayoutShadowNode implements YogaMeasu
     return mStyle;
   }
 
-  @ReactProp(name = ReactProgressBarViewManager.PROP_STYLE)
+  @ReactProp(name = ReactProgressBarViewManagerImpl.PROP_STYLE)
   public void setStyle(@Nullable String style) {
-    mStyle = style == null ? ReactProgressBarViewManager.DEFAULT_STYLE : style;
+    mStyle = style == null ? ReactProgressBarViewManagerImpl.DEFAULT_STYLE : style;
   }
 
   @Override
@@ -61,9 +61,9 @@ public class ProgressBarShadowNode extends LayoutShadowNode implements YogaMeasu
       YogaMeasureMode widthMode,
       float height,
       YogaMeasureMode heightMode) {
-    final int style = ReactProgressBarViewManager.getStyleFromString(getStyle());
+    final int style = ReactProgressBarViewManagerImpl.getStyleFromString(getStyle());
     if (!mMeasured.contains(style)) {
-      ProgressBar progressBar = ReactProgressBarViewManager.createProgressBar(getThemedContext(), style);
+      ProgressBar progressBar = ReactProgressBarViewManagerImpl.createProgressBar(getThemedContext(), style);
       final int spec = View.MeasureSpec.makeMeasureSpec(
           ViewGroup.LayoutParams.WRAP_CONTENT,
           View.MeasureSpec.UNSPECIFIED);

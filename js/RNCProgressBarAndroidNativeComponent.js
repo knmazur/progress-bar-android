@@ -9,22 +9,25 @@
 
 'use strict';
 
-import {requireNativeComponent} from 'react-native';
-import type {HostComponent, ViewProps, Double, WithDefault} from 'react-native';
+import { requireNativeComponent } from 'react-native';
+import type { HostComponent, ViewProps, Double, WithDefault } from 'react-native';
 
 type NativeProps = $ReadOnly<{|
   ...ViewProps,
 
   //Props
-  styleAttr?: string,
-  typeAttr?: string,
+  styleAttr ?: string,
+  typeAttr ?: string,
   indeterminate: boolean,
-  progress?: WithDefault<Double, 0>,
-  animating?: WithDefault<boolean, true>,
-  color?: ?string,
-  testID?: ?string,
+    progress ?: WithDefault < Double, 0 >,
+    animating ?: WithDefault < boolean, true >,
+    color ?: ? string,
+    testID ?: ? string,
 |}>;
 
-export default (requireNativeComponent<NativeProps>(
-  'RNCProgressBar',
-): HostComponent<NativeProps>);
+const isFabricEnabled = global.nativeFabricUIManager != null;
+
+
+  export default !isFabricEnabled ? 
+  (requireNativeComponent<NativeProps>('RNCProgressBar'): HostComponent<NativeProps>) 
+  : require("./NativeProgressBarAndroid").default

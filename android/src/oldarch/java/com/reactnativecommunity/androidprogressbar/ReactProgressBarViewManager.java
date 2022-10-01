@@ -18,6 +18,7 @@ import com.facebook.react.uimanager.BaseViewManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewProps;
+import com.facebook.react.bridge.ReactApplicationContext;
 
 /**
  * Manages instances of ProgressBar. ProgressBar is wrapped in a
@@ -26,18 +27,8 @@ import com.facebook.react.uimanager.ViewProps;
  * drop the existing ProgressBar (if there is one) and create a new one with the
  * style given.
  */
-@ReactModule(name = ReactProgressBarViewManager.REACT_CLASS)
+@ReactModule(name = ReactProgressBarViewManagerImpl.REACT_CLASS)
 public class ReactProgressBarViewManager extends BaseViewManager<ProgressBarContainerView, ProgressBarShadowNode> {
-
-  public static final String REACT_CLASS = "RNCProgressBar";
-
-  /* package */ static final String PROP_STYLE = "styleAttr";
-  /* package */ static final String PROP_INDETERMINATE = "indeterminate";
-  /* package */ static final String PROP_PROGRESS = "progress";
-  /* package */ static final String PROP_ANIMATING = "animating";
-
-  /* package */ static final String DEFAULT_STYLE = "Normal";
-
   private static Object sProgressBarCtorLock = new Object();
 
   /**
@@ -52,9 +43,11 @@ public class ReactProgressBarViewManager extends BaseViewManager<ProgressBarCont
     }
   }
 
+  public ReactProgressBarViewManager(ReactApplicationContext context) {}
+
   @Override
   public String getName() {
-    return REACT_CLASS;
+    return ReactProgressBarViewManagerImpl.REACT_CLASS;
   }
 
   @Override
@@ -62,29 +55,29 @@ public class ReactProgressBarViewManager extends BaseViewManager<ProgressBarCont
     return new ProgressBarContainerView(context);
   }
 
-  @ReactProp(name = PROP_STYLE)
+  @ReactProp(name = ReactProgressBarViewManagerImpl.PROP_STYLE)
   public void setStyle(ProgressBarContainerView view, @Nullable String styleName) {
-    view.setStyle(styleName);
+    ReactProgressBarViewManagerImpl.setStyle(view, styleName);
   }
 
   @ReactProp(name = ViewProps.COLOR, customType = "Color")
   public void setColor(ProgressBarContainerView view, @Nullable Integer color) {
-    view.setColor(color);
+    ReactProgressBarViewManagerImpl.setColor(view, color);
   }
 
-  @ReactProp(name = PROP_INDETERMINATE)
+  @ReactProp(name = ReactProgressBarViewManagerImpl.PROP_INDETERMINATE)
   public void setIndeterminate(ProgressBarContainerView view, boolean indeterminate) {
-    view.setIndeterminate(indeterminate);
+    ReactProgressBarViewManagerImpl.setIndeterminate(view, indeterminate);
   }
 
-  @ReactProp(name = PROP_PROGRESS)
+  @ReactProp(name = ReactProgressBarViewManagerImpl.PROP_PROGRESS)
   public void setProgress(ProgressBarContainerView view, double progress) {
-    view.setProgress(progress);
+    ReactProgressBarViewManagerImpl.setProgress(view, progress);
   }
 
-  @ReactProp(name = PROP_ANIMATING)
+  @ReactProp(name = ReactProgressBarViewManagerImpl.PROP_ANIMATING)
   public void setAnimating(ProgressBarContainerView view, boolean animating) {
-    view.setAnimating(animating);
+    ReactProgressBarViewManagerImpl.setAnimating(view, animating);
   }
 
   @Override
@@ -105,27 +98,5 @@ public class ReactProgressBarViewManager extends BaseViewManager<ProgressBarCont
   @Override
   protected void onAfterUpdateTransaction(ProgressBarContainerView view) {
     view.apply();
-  }
-
-  /* package */ static int getStyleFromString(@Nullable String styleStr) {
-    if (styleStr == null) {
-      throw new JSApplicationIllegalArgumentException("ProgressBar needs to have a style, null received");
-    } else if (styleStr.equals("Horizontal")) {
-      return android.R.attr.progressBarStyleHorizontal;
-    } else if (styleStr.equals("Small")) {
-      return android.R.attr.progressBarStyleSmall;
-    } else if (styleStr.equals("Large")) {
-      return android.R.attr.progressBarStyleLarge;
-    } else if (styleStr.equals("Inverse")) {
-      return android.R.attr.progressBarStyleInverse;
-    } else if (styleStr.equals("SmallInverse")) {
-      return android.R.attr.progressBarStyleSmallInverse;
-    } else if (styleStr.equals("LargeInverse")) {
-      return android.R.attr.progressBarStyleLargeInverse;
-    } else if (styleStr.equals("Normal")) {
-      return android.R.attr.progressBarStyle;
-    } else {
-      throw new JSApplicationIllegalArgumentException("Unknown ProgressBar style: " + styleStr);
-    }
   }
 }

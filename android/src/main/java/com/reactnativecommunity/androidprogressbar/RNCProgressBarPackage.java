@@ -19,6 +19,6 @@ public class RNCProgressBarPackage implements ReactPackage {
   @Override
   @SuppressWarnings("rawtypes")
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return Arrays.<ViewManager>asList(new ReactProgressBarViewManager());
+    return Arrays.<ViewManager>asList(new ReactProgressBarViewManager(reactContext));
   }
 }
